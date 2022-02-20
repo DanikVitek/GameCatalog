@@ -1,8 +1,8 @@
-package edu.mmsa.danikvitek
-package gamecatalog.persistence.dao.sql
+package edu.mmsa.danikvitek.gamecatalog
+package persistence.dao.sql
 
-import gamecatalog.persistence.dao.UserDAO
-import gamecatalog.persistence.entity.{Email, User}
+import persistence.dao.UserDAO
+import persistence.entity.{Email, User}
 
 object SQLUserDAO extends UserDAO{
     override def findByUsername(username: String): Option[User] = ???

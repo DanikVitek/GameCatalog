@@ -1,7 +1,7 @@
-package edu.mmsa.danikvitek
-package gamecatalog.persistence.dao
+package edu.mmsa.danikvitek.gamecatalog
+package persistence.dao
 
-import gamecatalog.persistence.entity.Genre
+import persistence.entity.Genre
 
 trait GenreDAO extends DAO[Genre, Int] {
     /**

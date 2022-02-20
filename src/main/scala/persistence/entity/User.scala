@@ -1,5 +1,5 @@
-package edu.mmsa.danikvitek
-package gamecatalog.persistence.entity
+package edu.mmsa.danikvitek.gamecatalog
+package persistence.entity
 
 case class User(id: Long, 
                 var firstName: String, 

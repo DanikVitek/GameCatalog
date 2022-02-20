@@ -1,5 +1,5 @@
-package edu.mmsa.danikvitek
-package gamecatalog.persistence.entity
+package edu.mmsa.danikvitek.gamecatalog
+package persistence.entity
 
 enum AuthorType {
     case STUDIO extends AuthorType

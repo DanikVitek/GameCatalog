@@ -1,8 +1,8 @@
-package edu.mmsa.danikvitek
-package gamecatalog.persistence.dao.sql
+package edu.mmsa.danikvitek.gamecatalog
+package persistence.dao.sql
 
-import gamecatalog.persistence.dao.GameDAO
-import gamecatalog.persistence.entity.Game
+import persistence.dao.GameDAO
+import persistence.entity.Game
 
 object SQLGameDAO extends GameDAO {
     override def findByTitle(title: String): Option[Game] = ???

@@ -1,7 +1,7 @@
-package edu.mmsa.danikvitek
-package gamecatalog.persistence.dao
+package edu.mmsa.danikvitek.gamecatalog
+package persistence.dao
 
-import gamecatalog.persistence.entity.{Email, User}
+import persistence.entity.{Email, User}
 
 trait UserDAO extends DAO[User, Long] {
     /**

@@ -1,8 +1,8 @@
-package edu.mmsa.danikvitek
-package gamecatalog.persistence.dao.sql
+package edu.mmsa.danikvitek.gamecatalog
+package persistence.dao.sql
 
-import gamecatalog.persistence.dao.GenreDAO
-import gamecatalog.persistence.entity.Genre
+import persistence.dao.GenreDAO
+import persistence.entity.Genre
 
 object SQLGenreDAO extends GenreDAO {
     override def findByTitle(title: String): Option[Genre] = ???

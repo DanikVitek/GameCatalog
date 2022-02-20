@@ -1,7 +1,7 @@
-package edu.mmsa.danikvitek
-package gamecatalog.persistence.entity
+package edu.mmsa.danikvitek.gamecatalog
+package persistence.entity
 
-import gamecatalog.persistence.entity.Email.isValidEmail
+import persistence.entity.Email.isValidEmail
 
 import java.util.regex.Pattern
 

@@ -1,8 +1,8 @@
-package edu.mmsa.danikvitek
-package gamecatalog.persistence.dao.sql
+package edu.mmsa.danikvitek.gamecatalog
+package persistence.dao.sql
 
-import gamecatalog.persistence.dao.AuthorDAO
-import gamecatalog.persistence.entity.Author
+import persistence.dao.AuthorDAO
+import persistence.entity.Author
 
 object SQLAuthorDAO extends AuthorDAO {
     override def findByName(name: String): Option[Author] = ???

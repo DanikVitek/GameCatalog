@@ -1,5 +1,5 @@
-package edu.mmsa.danikvitek
-package gamecatalog.persistence.entity
+package edu.mmsa.danikvitek.gamecatalog
+package persistence.entity
 
 import org.scalatest.Inspectors.forAll
 import org.scalatest.exceptions.TestFailedException

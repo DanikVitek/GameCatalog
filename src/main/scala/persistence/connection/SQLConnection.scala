@@ -1,5 +1,5 @@
-package edu.mmsa.danikvitek
-package gamecatalog.persistence.connection
+package edu.mmsa.danikvitek.gamecatalog
+package persistence.connection
 
 import java.sql.{Connection, DriverManager}
 

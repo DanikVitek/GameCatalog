@@ -1,5 +1,5 @@
-package edu.mmsa.danikvitek
-package gamecatalog.persistence.dao
+package edu.mmsa.danikvitek.gamecatalog
+package persistence.dao
 
 /**
  * Main Data Access Object trait

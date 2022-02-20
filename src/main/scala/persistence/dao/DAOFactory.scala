@@ -1,7 +1,7 @@
-package edu.mmsa.danikvitek
-package gamecatalog.persistence.dao
+package edu.mmsa.danikvitek.gamecatalog
+package persistence.dao
 
-import sql.{SQLAuthorDAO, SQLGameDAO, SQLGenreDAO, SQLUserDAO}
+import persistence.dao.sql.{SQLAuthorDAO, SQLGameDAO, SQLGenreDAO, SQLUserDAO}
 
 object DAOFactory {
     def getGameDAO: GameDAO = SQLGameDAO
