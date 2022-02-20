@@ -16,7 +16,7 @@ import concurrent.ExecutionContext.Implicits.global
 object ConnectionPool {
     private final lazy val LOGGER = Logger("ConnectionPool")
     private final lazy val N_CONNECTIONS: Int = {
-        val value = SQLManager getProperty "n_connections" map (_.toInt) getOrElse 1
+        val value = getProperty("n_connections") map (_.toInt) getOrElse 1
         LOGGER info s"Got config value n_connections = $value"
         value
     }
@@ -24,6 +24,8 @@ object ConnectionPool {
     private final lazy val pool: mutable.Queue[Connection] = mutable.Queue.empty[Connection]
 
     /**
+     * Opens new connection or dequeues an existing one.
+     * 
      * @return Future of connection
      */
     def startConnection: Future[Connection] = Future {
