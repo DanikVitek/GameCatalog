@@ -7,6 +7,7 @@ import persistence.entity.{Email, User}
 
 import com.typesafe.scalalogging.Logger
 
+import java.lang.Thread.onSpinWait
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.*
 import scala.concurrent.{Await, Future}
@@ -14,7 +15,7 @@ import scala.language.postfixOps
 import scala.util.Try
 
 object GameCatalogLauncher extends App {
-    private final val LOGGER = Logger("GameCatalogLauncher")
+    private final val LOGGER = Logger(GameCatalogLauncher.getClass)
 
     private lazy val userDAO: UserDAO = SQLUserDAO
 
@@ -41,7 +42,10 @@ object GameCatalogLauncher extends App {
         onEnable()
 
         val mainRunnable = Future {
-            while (true) onUpdate()
+            while (true) {
+                onUpdate()
+                onSpinWait()
+            }
         }
 
         var isStopping = false

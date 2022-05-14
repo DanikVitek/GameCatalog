@@ -7,20 +7,31 @@ import persistence.entity.{Email, User}
 
 import com.typesafe.scalalogging.Logger
 
-import scala.concurrent.Await
-import concurrent.duration.*
+import java.sql.ResultSet
 import scala.annotation.tailrec
+import scala.concurrent.Await
+import scala.concurrent.duration.*
 
 object SQLUserDAO extends UserDAO {
-    private final lazy val LOGGER = Logger("SQLUserDAO")
-
+    private final lazy val LOGGER = Logger(SQLUserDAO.getClass)
+    
     private final lazy val TABLE = "users"
+    
     private final lazy val COLUMN_ID = "id"
     private final lazy val COLUMN_FIRST_NAME = "first_name"
     private final lazy val COLUMN_LAST_NAME = "last_name"
     private final lazy val COLUMN_USERNAME = "username"
     private final lazy val COLUMN_EMAIL = "email"
     private final lazy val COLUMN_PASSWORD_HASH = "password_hash"
+
+    private def extractUserFromRS(rs: ResultSet): User = User(
+        Some(rs.getLong(COLUMN_ID)),
+        rs.getString(COLUMN_FIRST_NAME),
+        rs.getString(COLUMN_LAST_NAME),
+        rs.getString(COLUMN_USERNAME),
+        Email(rs.getString(COLUMN_EMAIL)),
+        rs.getString(COLUMN_PASSWORD_HASH)
+    )
 
     override def findByUsername(username: String): Option[User] = {
         val conn = Await.result(ConnectionPool.startConnection, 0.5.seconds)
@@ -29,19 +40,13 @@ object SQLUserDAO extends UserDAO {
         val rs = ps.executeQuery()
 
         val result = if rs.next() then Some {
-            val user = User(
-                Some(rs.getLong(COLUMN_ID)),
-                rs.getString(COLUMN_FIRST_NAME),
-                rs.getString(COLUMN_LAST_NAME),
-                username,
-                Email(rs.getString(COLUMN_EMAIL)),
-                rs.getString(COLUMN_PASSWORD_HASH)
-            )
+            val user = extractUserFromRS(rs)
             LOGGER info s"Found user by username \"$username\": $user"
             user
         }
         else None
 
+        ps.close()
         ConnectionPool endConnection conn
 
         result
@@ -54,19 +59,13 @@ object SQLUserDAO extends UserDAO {
         val rs = ps.executeQuery()
 
         val result = if rs.next() then Some {
-            val user = User(
-                Some(rs.getLong(COLUMN_ID)),
-                rs.getString(COLUMN_FIRST_NAME),
-                rs.getString(COLUMN_LAST_NAME),
-                rs.getString(COLUMN_USERNAME),
-                email,
-                rs.getString(COLUMN_PASSWORD_HASH)
-            )
+            val user = extractUserFromRS(rs)
             LOGGER info s"Found user by email $email: $user"
             user
         }
         else None
 
+        ps.close()
         ConnectionPool endConnection conn
 
         result
@@ -92,6 +91,7 @@ object SQLUserDAO extends UserDAO {
         }
         else None
 
+        ps.close()
         ConnectionPool endConnection conn
 
         result
@@ -106,19 +106,13 @@ object SQLUserDAO extends UserDAO {
         def collectToList(acc: List[User] = Nil): List[User] =
             if rs.next() then collectToList(
                 acc :+ {
-                    val user = User(
-                        Some(rs.getLong(COLUMN_ID)),
-                        rs.getString(COLUMN_FIRST_NAME),
-                        rs.getString(COLUMN_LAST_NAME),
-                        rs.getString(COLUMN_USERNAME),
-                        Email(rs.getString(COLUMN_EMAIL)),
-                        rs.getString(COLUMN_PASSWORD_HASH)
-                    )
+                    val user = extractUserFromRS(rs)
                     LOGGER info s"One of findAll users: $user"
                     user
                 }
             )
             else {
+                ps.close()
                 ConnectionPool endConnection conn
                 acc
             }
@@ -127,14 +121,15 @@ object SQLUserDAO extends UserDAO {
     }
 
     override def save(user: User): User = {
-        val conn = Await.result(ConnectionPool.startConnection, 0.5.seconds)
+        val conn = Await.result(ConnectionPool.startConnection, 1.second)
         val ps = conn.prepareStatement(
             s"insert into $TABLE (" +
-                s"$COLUMN_FIRST_NAME, " +
-                s"$COLUMN_LAST_NAME, " +
-                s"$COLUMN_USERNAME, " +
-                s"$COLUMN_EMAIL, " +
-                s"$COLUMN_PASSWORD_HASH) value (?, ?, ?, ?, ?);"
+              s"$COLUMN_FIRST_NAME, " +
+              s"$COLUMN_LAST_NAME, " +
+              s"$COLUMN_USERNAME, " +
+              s"$COLUMN_EMAIL, " +
+              s"$COLUMN_PASSWORD_HASH) " +
+              s"value (?, ?, ?, ?, ?);"
         )
 
         ps.setString(1, user.firstName)
@@ -144,20 +139,24 @@ object SQLUserDAO extends UserDAO {
         ps.setString(5, user.passwordHash)
 
         ps.executeUpdate()
-
         LOGGER info s"Saved user: $user"
 
+        ps.close()
         ConnectionPool endConnection conn
 
         user.maybeId = Some(findByUsername(user.username).get.id)
         user
     }
 
+    override def update(entity: User): User = ???
+
     override def delete(id: Long): Unit = {
         val conn = Await.result(ConnectionPool.startConnection, 0.5.seconds)
         val ps = conn.prepareStatement(s"delete ignore from $TABLE where $COLUMN_ID = ?;")
         ps.setLong(1, id)
         ps.executeUpdate()
+
+        ps.close()
         ConnectionPool endConnection conn
         LOGGER info s"Deleted user by id: $id"
     }

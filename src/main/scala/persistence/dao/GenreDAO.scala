@@ -11,4 +11,6 @@ trait GenreDAO extends DAO[Genre, Int] {
      * @return Option of Genre
      */
     def findByTitle(title: String): Option[Genre]
+    
+    def findByGameId(gameId: Long): List[Genre]
 }

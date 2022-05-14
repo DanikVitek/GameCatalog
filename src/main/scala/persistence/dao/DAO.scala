@@ -29,6 +29,8 @@ trait DAO[A, I] {
      */
     def save(entity: A): A
 
+    def update(entity: A): A
+    
     /**
      * Deletes the user by the given ID if any
      * 

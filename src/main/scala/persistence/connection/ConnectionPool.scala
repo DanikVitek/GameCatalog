@@ -42,7 +42,7 @@ object ConnectionPool {
      * @param connection Connection to end
      */
     def endConnection(connection: Connection): Unit = {
-        if !(pool.contains(connection) || connection.isClosed) then pool enqueue connection
+        if !pool.contains(connection) && !connection.isClosed then pool enqueue connection
         LOGGER info "Connection ended"
     }
 

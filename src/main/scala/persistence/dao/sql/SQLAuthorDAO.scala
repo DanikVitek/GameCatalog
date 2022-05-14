@@ -13,5 +13,7 @@ object SQLAuthorDAO extends AuthorDAO {
 
     override def save(entity: Author): Author = ???
 
+    override def update(entity: Author): Author = ???
+
     override def delete(id: Long): Unit = ???
 }

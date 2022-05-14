@@ -1,13 +1,13 @@
 package edu.mmsa.danikvitek.gamecatalog
 package persistence.entity
 
-import scala.collection.mutable
-
-case class Game(id: Long,
+case class Game(var maybeId: Option[Long],
                 var title: String,
-                genres: mutable.Set[Genre],
+                genres: Set[Genre],
                 author: Author,
                 var price: BigDecimal = BigDecimal(0))
 extends Comparable[Game] {
     override def compareTo(o: Game): Int = id compareTo o.id
+    
+    def id: Long = maybeId.get
 }
