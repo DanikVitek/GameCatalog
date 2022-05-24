@@ -1,12 +1,12 @@
 package edu.mmsa.danikvitek.gamecatalog
 package persistence.dao
 
-import persistence.entity.{Email, User}
+import persistence.entity.{ Email, User }
 
 trait UserDAO extends DAO[User, Long] {
     /**
      * Finds the User by his/her username
-     * 
+     *
      * @param username The username to find the user by
      * @return Option of User
      */

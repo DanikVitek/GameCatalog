@@ -3,16 +3,16 @@ package persistence.dao
 
 /**
  * Main Data Access Object trait
- * 
+ *
  * @tparam A user type
  * @tparam I user ID type
  */
 trait DAO[A, I] {
     /**
-     * Find an user by its ID
-     * 
+     * Find an genre by its ID
+     *
      * @param id user's ID
-     * @return Option of user
+     * @return Option of genre
      */
     def findById(id: I): Option[A]
 
@@ -22,19 +22,19 @@ trait DAO[A, I] {
     def findAll: List[A]
 
     /**
-     * Saves or updates the given user in the database
-     * 
+     * Saves or updates the given genre in the database
+     *
      * @param entity Entity to save
-     * @return saved user
+     * @return saved genre
      */
     def save(entity: A): A
 
     def update(entity: A): A
-    
+
     /**
-     * Deletes the user by the given ID if any
-     * 
-     * @param id The ID of the user to delete from database
+     * Deletes the genre by the given ID if any
+     *
+     * @param id The ID of the genre to delete from database
      */
     def delete(id: I): Unit
 }

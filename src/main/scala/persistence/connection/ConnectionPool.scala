@@ -5,12 +5,13 @@ import com.typesafe.scalalogging.Logger
 
 import java.sql.Connection
 import scala.collection.mutable
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.Try
-import concurrent.ExecutionContext.Implicits.global
 
 /**
  * The singleton object for accessing the database connections.
+ *
  * @note End your connections after you've stopped using them. Otherwise you won't be able to start a new one.
  */
 object ConnectionPool {
@@ -25,7 +26,7 @@ object ConnectionPool {
 
     /**
      * Opens new connection or dequeues an existing one.
-     * 
+     *
      * @return Future of connection
      */
     def startConnection: Future[Connection] = Future {

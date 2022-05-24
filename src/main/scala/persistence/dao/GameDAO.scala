@@ -12,7 +12,7 @@ trait GameDAO extends DAO[Game, Long] {
 
     /**
      * Finds all games of a given author
-     * 
+     *
      * @param authorName The author name to find games by
      * @return the List of Games
      */

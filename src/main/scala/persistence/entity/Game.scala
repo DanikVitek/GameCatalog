@@ -6,8 +6,8 @@ case class Game(var maybeId: Option[Long],
                 genres: Set[Genre],
                 author: Author,
                 var price: BigDecimal = BigDecimal(0))
-extends Comparable[Game] {
+  extends Comparable[Game] {
     override def compareTo(o: Game): Int = id compareTo o.id
-    
+
     def id: Long = maybeId.get
 }
